@@ -1,0 +1,35 @@
+.ProductCard {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  padding: 15px;
+  margin: 15px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ProductCard h3 {
+  color: #353535;
+}
+
+.ProductCard p {
+  color: #777777;
+}
+
+.ProductCard img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.ProductCard a {
+  text-decoration: none;
+  color: #b2a6f3;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.ProductCard a:hover {
+  color: #353535;
+}

@@ -1,0 +1,12 @@
+.ProductDetail {
+  padding: 20px;
+  text-align: center;
+}
+
+.ProductDetail h2 {
+  color: #353535;
+}
+
+.ProductDetail p {
+  color: #777777;
+}
