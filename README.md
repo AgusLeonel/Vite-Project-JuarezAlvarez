@@ -8,7 +8,7 @@ En el proyecto se pueden ver varios productos, acceder a sus detalles, agregarlo
 
 Para levantar la aplicación: 
 ```
-git clone
+git clone https://github.com/AgusLeonel/Vite-Project-JuarezAlvarez.git
 npm install
 npm run dev
 ```
