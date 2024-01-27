@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,20 +10,23 @@ const ProductCard = ({ products }) => {
       {products.map((product) => (
         <Link key={product.id} to={`/item/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
           <Card sx={{ maxWidth: 345, margin: 2 }}>
-            <CardMedia
-              sx={{ height: 140 }}
-              image={product.image || ''}
-              title={product.title}
-            />
+            {product.img && (
+              <CardMedia
+                component="img"
+                alt={product.title}
+                height="140"
+                image={product.img}
+              />
+            )}
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {product.title}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Category: {product.category}
+                {product.category}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Price: ${product.price}
+                ${product.price}
               </Typography>
             </CardContent>
           </Card>

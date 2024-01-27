@@ -1,12 +1,36 @@
 .ProductDetail {
-  padding: 20px;
   text-align: center;
+  margin: 20px;
+  background-color: #b2a6f3;
 }
 
 .ProductDetail h2 {
-  color: #353535;
+  color: #ffffff;
 }
 
 .ProductDetail p {
-  color: #777777;
+  color: #ffffff;
+  margin: 10px 0;
+}
+
+.ProductDetail img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+
+.ProductDetail button {
+  background-color: #2b2164;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.ProductDetail button:hover {
+  background-color: #593cff;
+  color: #333238;
 }

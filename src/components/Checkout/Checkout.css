@@ -1,0 +1,42 @@
+.Checkout {
+    text-align: center;
+    margin: 20px;
+    background-color: #b2a6f3;
+}
+
+.Checkout h2 {
+    color: #ffffff;
+}
+
+.Checkout h3 {
+    color: #ffffff;
+}
+
+.Checkout label {
+    display: block;
+    margin: 10px 0;
+    color: #ffffff;
+}
+
+.Checkout input {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.Checkout button {
+    background-color: #2b2164;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.Checkout button:hover {
+    background-color: #593cff;
+    color: #333238;
+}

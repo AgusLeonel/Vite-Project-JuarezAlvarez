@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import ProductCard from '../ProductCard/ProductCard';
-import { fetchProducts, filterProductsByCategory } from '../api/API'
+import { db } from '../../firebase/firebaseConfig';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import './ItemListContainer.css';
 
-const ItemListContainer = ({ defaultCategory }) => {
+const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState(defaultCategory);
+  const location = useLocation();
+  const category = location.pathname.split('/').pop();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchProducts();
-        console.log('All Products:', data);
-        const filteredProducts = filterProductsByCategory(data, category);
-        console.log('Filtered Products:', filteredProducts);
-        setProducts(filteredProducts);
+        const productsCollection = collection(db, 'products');
+        const q = category ? query(productsCollection, where('category', '==', category)) : productsCollection;
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+        setProducts(data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -24,11 +28,7 @@ const ItemListContainer = ({ defaultCategory }) => {
     };
 
     fetchData();
-  }, [category, defaultCategory]);
-
-  useEffect(() => {
-    setCategory(defaultCategory);
-  }, [defaultCategory]);
+  }, [category]);
 
   return (
     <div className="ItemListContainer">

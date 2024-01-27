@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchProductById } from '../api/API';
+import { db } from '../../firebase/firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
+import { useCart } from '../CartContext/CartContext';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const { dispatch } = useCart();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchProductById(id);
-        setProduct(data);
+        const productDoc = doc(db, 'products', id);
+        const productSnapshot = await getDoc(productDoc);
+
+        if (productSnapshot.exists()) {
+          const data = { ...productSnapshot.data(), id: productSnapshot.id };
+          setProduct(data);
+        }
       } catch (error) {
         console.error('Error fetching product details:', error);
       }
@@ -20,18 +28,28 @@ const ProductDetail = () => {
     fetchData();
   }, [id]);
 
+  const handleAddToCart = () => {
+    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
+  };
+
   if (!product) {
     return <div>Cargando...</div>;
   }
 
   return (
-    <div>
+    <div className="ProductDetail">
       <h2>{product.title}</h2>
-      <p>Category: {product.category}</p>
-      <p>Description: {product.description}</p>
-      <p>Price: ${product.price}</p>
-      {product.image && <img src={product.image} alt={product.title} />}
+      {product.img && <img src={product.img} />}
+      <p>{product.category}</p>
+      <p>{product.description}</p>
+      <p>${product.price}</p>
+
+
+      <div>
+        <button onClick={handleAddToCart}>Agregar al Carrito</button>
+      </div>
     </div>
-  )
-}
+  );
+};
+
 export default ProductDetail;

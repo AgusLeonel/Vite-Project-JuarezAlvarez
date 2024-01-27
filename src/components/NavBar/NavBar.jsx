@@ -3,19 +3,14 @@ import { Link } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
 import './NavBar.css';
 
-const NavBar = ({ onCategoryChange }) => {
-  const handleCategoryClick = (category) => {
-    onCategoryChange(category);
-  };
-
+const NavBar = () => {
   return (
     <nav className="NavBar">
       <ul>
-        <li><Link to="/" onClick={() => handleCategoryClick('')}>Inicio</Link></li>
-        <li><Link to="/category/electronics" onClick={() => handleCategoryClick('electronics')}>Electronics</Link></li>
-        <li><Link to="/category/jewelery" onClick={() => handleCategoryClick('jewelery')}>Jewelery</Link></li>
-        <li><Link to="/category/mens-clothing" onClick={() => handleCategoryClick('men\'s clothing')}>Men's Clothing</Link></li>
-        <li><Link to="/category/womens-clothing" onClick={() => handleCategoryClick('women\'s clothing')}>Women's Clothing</Link></li>
+        <li><Link to="/">Inicio</Link></li>
+        <li><Link to="/category/Electronica">Electronica</Link></li>
+        <li><Link to="/category/Hombre">Hombre</Link></li>
+        <li><Link to="/category/Mujer">Mujer</Link></li>
         <li><CartWidget /></li>
       </ul>
     </nav>

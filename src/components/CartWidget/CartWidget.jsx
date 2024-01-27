@@ -1,13 +1,20 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { useCart } from '../CartContext/CartContext';
 
 const CartWidget = () => {
-    return (
-        <div>
-            <ShoppingBasketIcon />
-            <span> 99+ </span>
-        </div>
-    )
-}
+  const { state } = useCart();
+  const totalItems = state.cart.reduce((total, item) => total + item.quantity, 0);
 
-export default CartWidget
+  return (
+    <div>
+      <Link to="/checkout">
+        <ShoppingBasketIcon />
+        {totalItems > 0 && <span>{totalItems}</span>}
+      </Link>
+    </div>
+  );
+};
+
+export default CartWidget;
