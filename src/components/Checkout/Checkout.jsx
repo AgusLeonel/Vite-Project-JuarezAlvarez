@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useCart } from '../CartContext/CartContext';
 import './Checkout.css';
+import { db } from '../../firebase/firebaseConfig';
+import { addDoc, collection } from 'firebase/firestore';
 
 const Checkout = () => {
   const { state, dispatch } = useCart();
@@ -11,7 +13,6 @@ const Checkout = () => {
     email: '',
     confirmEmail: '',
   });
-
   const [showForm, setShowForm] = useState(false);
   const [purchaseConfirmed, setPurchaseConfirmed] = useState(false);
   const [trackingCode, setTrackingCode] = useState(null);
@@ -20,11 +21,23 @@ const Checkout = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-  const handleConfirmPurchase = () => {
-    const newTrackingCode = generateTrackingCode();
-    setTrackingCode(newTrackingCode);
-    setShowForm(true);
-    setPurchaseConfirmed(true);
+
+  const handleConfirmPurchase = async () => {
+    try {
+      const newOrderRef = await addDoc(collection(db, 'orders'), {
+        buyer: {
+          name: formData.name,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          email: formData.email,
+        },
+      });
+      setTrackingCode(newOrderRef.id);
+      setShowForm(true);
+      setPurchaseConfirmed(true);
+    } catch (error) {
+      console.error('Error al confirmar la compra:', error);
+    }
   };
 
   const handleClearCart = () => {
@@ -35,42 +48,38 @@ const Checkout = () => {
     setShowForm(true);
   };
 
-
-
-  const generateTrackingCode = () => {
-    return Math.floor(Math.random() * 1000000);
-  };
-
   return (
     <div className="Checkout">
       <h2>Checkout</h2>
       {showForm && !purchaseConfirmed ? (
         <div>
           <h3>Información del Comprador</h3>
-          <label>
-            Nombre:
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} />
-          </label>
-          <label>
-            Apellido:
-            <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
-          </label>
-          <label>
-            Teléfono:
-            <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
-          </label>
-          <label>
-            Email:
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
-          </label>
-          <label>
-            Confirmar Email:
-            <input type="email" name="confirmEmail" value={formData.confirmEmail} onChange={handleInputChange} />
-          </label>
+          <form>
+            <label>
+              Nombre:
+              <input type="text" name="name" value={formData.name} onChange={handleInputChange} />
+            </label>
+            <label>
+              Apellido:
+              <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
+            </label>
+            <label>
+              Teléfono:
+              <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
+            </label>
+            <label>
+              Email:
+              <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+            </label>
+            <label>
+              Confirmar Email:
+              <input type="email" name="confirmEmail" value={formData.confirmEmail} onChange={handleInputChange} />
+            </label>
 
-          <button onClick={() => handleConfirmPurchase()}>
-            Confirmar Compra
-          </button>
+            <button type="button" onClick={handleConfirmPurchase}>
+              Confirmar Compra
+            </button>
+          </form>
         </div>
       ) : (
         <div>
@@ -91,8 +100,7 @@ const Checkout = () => {
                 Pagar
               </button>
             </div>
-          </div>
-        </div>
+          </div>        </div>
       )}
 
       {purchaseConfirmed && (
